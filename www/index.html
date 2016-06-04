@@ -1,14 +1,39 @@
 <!DOCTYPE html>
+<!-- set default value for SSI variable "stream_name" -->
+<!--#set var="stream_name" value="main" -->
+
+<!-- get "stream_name" value from URL -->
+<!--#if expr="$QUERY_STRING = /([a-zA-Z0-9]+)/" -->
+<!--#set var="stream_name" value="$1" -->
+<!--#endif -->
 <html>
 <head>
-    <title>Stream</title>
+    <link href="http://vjs.zencdn.net/5.10.2/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/5.10.2/video.js"></script>
+    <script src="./videojs-contrib-hls.min.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0; padding: 0;
+            background-color: #333;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        body .video-js {
+            max-width: 100%;
+        }
+    </style>
 </head>
 <body>
-<video
-    style='background-color: black'
-    src="rtmp://localhost:8000/stream/thorsummoner"
->
-Video not Supported
-</video>
+    <video id="stream-<!--#echo var='stream_name' -->" class="video-js" controls autoplay preload="auto" data-setup="{}">
+        <source src="http://localhost/hls/<!--#echo var='stream_name' -->_720p2628kbs/index.m3u8" type='application/x-mpegURL'>
+        <source src="http://localhost/hls/<!--#echo var='stream_name' -->.m3u8" type='application/x-mpegURL'>
+        <p class="vjs-no-js">
+            To view this video please enable JavaScript, and consider upgrading to a web browser that
+            <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+        </p>
+        Video not Supported
+    </video>
 </body>
 </html>
